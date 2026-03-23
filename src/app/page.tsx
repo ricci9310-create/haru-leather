@@ -38,7 +38,7 @@ const products: Product[] = [
   {
     id: 2,
     name: "Tenis Urban Black",
-    price: 185000,
+    price: 175000,
     category: "tenis",
     sizes: [38, 39, 40, 41, 42, 43, 44],
     colors: ["Negro", "Gris Oscuro"],
