@@ -98,39 +98,49 @@ export default function CheckoutPage() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validate()) return;
+    if (!validate() || submitting) return;
+    setSubmitting(true);
 
-    // Build WhatsApp order message
-    const itemLines = cart
-      .map(
-        (i) =>
-          `- ${i.product.name} (Talla ${i.size}) x${i.qty} = ${formatCOP(i.product.price * i.qty)}`
-      )
-      .join("\n");
+    try {
+      // 1. Guardar pedido en la base de datos
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          customer: { nombre: form.nombre, cedula: form.cedula, email: form.email, telefono: form.telefono, direccion: form.direccion, ciudad: form.ciudad, departamento: form.departamento, notas: form.notas },
+          items: cart.map((i) => ({ productId: i.product.id, size: i.size, qty: i.qty })),
+        }),
+      });
+      const data = await res.json();
 
-    const message = `*Nuevo Pedido HARU Leather*\n\n` +
-      `*Cliente:* ${form.nombre}\n` +
-      `*Cedula:* ${form.cedula}\n` +
-      `*Email:* ${form.email}\n` +
-      `*Telefono:* ${form.telefono}\n` +
-      `*Direccion:* ${form.direccion}, ${form.ciudad}, ${form.departamento}\n` +
-      (form.notas ? `*Notas:* ${form.notas}\n` : "") +
-      `\n*Productos:*\n${itemLines}\n\n` +
-      `*Subtotal:* ${formatCOP(subtotal)}\n` +
-      `*Envio:* ${shipping === 0 ? "GRATIS" : formatCOP(shipping)}\n` +
-      `*TOTAL:* ${formatCOP(total)}`;
+      // 2. Construir mensaje de WhatsApp con referencia del pedido
+      const itemLines = cart
+        .map((i) => `- ${i.product.name} (Talla ${i.size}) x${i.qty} = ${formatCOP(i.product.price * i.qty)}`)
+        .join("\n");
+      const orderRef = data.orderNumber ? `*Pedido:* #${data.orderNumber.slice(-8)}\n` : "";
+      const message = `*Nuevo Pedido HARU Leather*\n\n` + orderRef +
+        `*Cliente:* ${form.nombre}\n*Cedula:* ${form.cedula}\n*Email:* ${form.email}\n*Telefono:* ${form.telefono}\n` +
+        `*Direccion:* ${form.direccion}, ${form.ciudad}, ${form.departamento}\n` +
+        (form.notas ? `*Notas:* ${form.notas}\n` : "") +
+        `\n*Productos:*\n${itemLines}\n\n*Subtotal:* ${formatCOP(subtotal)}\n*Envio:* ${shipping === 0 ? "GRATIS" : formatCOP(shipping)}\n*TOTAL:* ${formatCOP(total)}\n\n_Nota: Si alguna talla no esta disponible, el tiempo de fabricacion es de 8 dias habiles._`;
 
-    // Open WhatsApp with order (BOLD integration placeholder)
-    window.open(
-      `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`,
-      "_blank"
-    );
-
-    // Clear cart
-    localStorage.removeItem("haru-cart");
-    setSubmitted(true);
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, "_blank");
+      localStorage.removeItem("haru-cart");
+      setSubmitted(true);
+    } catch {
+      // Si falla la BD, igual enviar por WhatsApp para no perder la venta
+      const itemLines = cart.map((i) => `- ${i.product.name} (T:${i.size}) x${i.qty}`).join("\n");
+      const message = `*Pedido HARU*\n*Cliente:* ${form.nombre}\n*Tel:* ${form.telefono}\n\n${itemLines}\n*TOTAL:* ${formatCOP(total)}`;
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, "_blank");
+      localStorage.removeItem("haru-cart");
+      setSubmitted(true);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   /* ---- SUBMITTED STATE ---- */
@@ -427,7 +437,7 @@ export default function CheckoutPage() {
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
                   </svg>
-                  Pagar con BOLD
+                  {submitting ? "Procesando..." : "Pagar con BOLD"}
                 </button>
 
                 <p className="text-brand-text-dim text-xs text-center mt-3">

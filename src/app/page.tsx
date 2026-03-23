@@ -451,6 +451,11 @@ export default function Home() {
                     </div>
                   </div>
 
+                  {/* Availability note */}
+                  <p className="text-brand-text-dim text-xs mb-3 italic">
+                    * Si tu talla no esta disponible, la fabricamos en 8 dias habiles.
+                  </p>
+
                   {/* Add to cart */}
                   <button
                     onClick={() => addToCart(product)}
