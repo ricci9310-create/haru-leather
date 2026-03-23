@@ -1,7 +1,7 @@
 "use client";
 
 export default function WhatsAppButton() {
-  const phoneNumber = "573000000000";
+  const phoneNumber = "573044426006";
   const message = encodeURIComponent(
     "Hola HARU Leather! Me interesa conocer mas sobre su calzado en cuero."
   );

@@ -35,7 +35,7 @@ const DEPARTAMENTOS = [
 
 const SHIPPING_COST = 12000;
 const FREE_SHIPPING_MIN = 300000;
-const WHATSAPP_NUMBER = "573000000000";
+const WHATSAPP_NUMBER = "573044426006";
 
 function formatCOP(value: number): string {
   return (

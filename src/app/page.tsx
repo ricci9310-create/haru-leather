@@ -197,7 +197,7 @@ export default function Home() {
     );
   };
 
-  const whatsappNumber = "573000000000";
+  const whatsappNumber = "573044426006";
 
   return (
     <>
