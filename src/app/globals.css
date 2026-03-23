@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand-bg: #0A0A0A;
+  --brand-surface: #141414;
+  --brand-card: #1A1A1A;
+  --brand-border: #2A2A2A;
+  --brand-primary: #8B4513;
+  --brand-primary-light: #A0522D;
+  --brand-accent: #D4A574;
+  --brand-accent-light: #E8C9A0;
+  --brand-gold: #C5975B;
+  --brand-text: #F5F0EB;
+  --brand-text-muted: #A89B8C;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--brand-bg);
+  color: var(--brand-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--brand-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--brand-primary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-primary-light);
+}
+
+/* Selection color */
+::selection {
+  background-color: rgba(139, 69, 19, 0.4);
+  color: var(--brand-text);
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-accent via-brand-gold to-brand-accent-light;
+  }
+
+  .bg-leather-pattern {
+    background-image:
+      radial-gradient(ellipse at 20% 50%, rgba(139, 69, 19, 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 50%, rgba(212, 165, 116, 0.06) 0%, transparent 50%);
+  }
+
+  .bg-hero-gradient {
+    background: linear-gradient(
+      135deg,
+      rgba(10, 10, 10, 1) 0%,
+      rgba(20, 15, 10, 1) 30%,
+      rgba(30, 18, 8, 1) 50%,
+      rgba(15, 10, 8, 1) 70%,
+      rgba(10, 10, 10, 1) 100%
+    );
+  }
+
+  .card-shine {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-shine::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(212, 165, 116, 0.05) 50%,
+      transparent 100%
+    );
+    transition: left 0.6s ease;
+  }
+
+  .card-shine:hover::before {
+    left: 100%;
+  }
+}
+
+/* Scroll reveal animation */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
