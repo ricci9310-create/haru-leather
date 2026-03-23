@@ -31,7 +31,7 @@ const products: Product[] = [
     name: "Tenis Classic Brown",
     price: 175000,
     category: "tenis",
-    sizes: [38, 39, 40, 41, 42, 43, 44],
+    sizes: [37, 38, 39, 40, 41, 42, 43],
     colors: ["Cafe", "Miel"],
     gradient: "from-amber-900 via-yellow-900 to-amber-800",
   },
@@ -40,7 +40,7 @@ const products: Product[] = [
     name: "Tenis Urban Black",
     price: 175000,
     category: "tenis",
-    sizes: [38, 39, 40, 41, 42, 43, 44],
+    sizes: [37, 38, 39, 40, 41, 42, 43],
     colors: ["Negro", "Gris Oscuro"],
     gradient: "from-gray-900 via-zinc-800 to-gray-900",
   },
@@ -49,7 +49,7 @@ const products: Product[] = [
     name: "Tenis Executive Tan",
     price: 195000,
     category: "tenis",
-    sizes: [38, 39, 40, 41, 42, 43, 44],
+    sizes: [37, 38, 39, 40, 41, 42, 43],
     colors: ["Tan", "Caramelo"],
     gradient: "from-orange-900 via-amber-800 to-orange-900",
   },
@@ -58,7 +58,7 @@ const products: Product[] = [
     name: "Bota Chelsea Cafe",
     price: 239900,
     category: "botas",
-    sizes: [38, 39, 40, 41, 42, 43, 44],
+    sizes: [37, 38, 39, 40, 41, 42, 43],
     colors: ["Cafe", "Chocolate"],
     gradient: "from-yellow-950 via-amber-900 to-yellow-950",
   },
@@ -67,7 +67,7 @@ const products: Product[] = [
     name: "Bota Urban Black",
     price: 259900,
     category: "botas",
-    sizes: [38, 39, 40, 41, 42, 43, 44],
+    sizes: [37, 38, 39, 40, 41, 42, 43],
     colors: ["Negro"],
     gradient: "from-neutral-900 via-stone-800 to-neutral-900",
   },
@@ -76,7 +76,7 @@ const products: Product[] = [
     name: "Bota Premium Cognac",
     price: 279900,
     category: "botas",
-    sizes: [38, 39, 40, 41, 42, 43, 44],
+    sizes: [37, 38, 39, 40, 41, 42, 43],
     colors: ["Cognac", "Brandy"],
     gradient: "from-red-950 via-orange-900 to-red-950",
   },
@@ -370,8 +370,8 @@ export default function Home() {
               Nuestros Productos
             </h2>
             <p className="text-brand-text-muted max-w-xl mx-auto">
-              Encuentra el par perfecto que refleje tu estilo. Cada modelo
-              disponible en tallas 38 a 44.
+              Encuentra el par perfecto que refleje tu estilo. Tallas
+              disponibles desde la 37 a 43.
             </p>
           </div>
 
